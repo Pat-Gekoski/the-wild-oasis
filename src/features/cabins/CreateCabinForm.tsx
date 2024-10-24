@@ -11,9 +11,10 @@ import { useEditCabin } from './useEditCabin'
 
 interface CreateCabinFormProps {
 	cabinToEdit?: any
+	onCloseModal?: () => void
 }
 
-function CreateCabinForm({ cabinToEdit = {} }: CreateCabinFormProps) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }: CreateCabinFormProps) {
 	const { id: editId, ...editValues } = cabinToEdit
 	const isEditSession = Boolean(editId)
 
@@ -31,10 +32,26 @@ function CreateCabinForm({ cabinToEdit = {} }: CreateCabinFormProps) {
 		const image = typeof data.image === 'string' ? data.image : data.image[0]
 		if (isEditSession) {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			editCabin({ newCabinData: { ...data, image }, id: editId }, { onSuccess: (data: any) => reset() })
+			editCabin(
+				{ newCabinData: { ...data, image }, id: editId },
+				{
+					onSuccess: (data: any) => {
+						reset()
+						onCloseModal?.()
+					},
+				},
+			)
 		} else {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			createCabin({ ...data, image }, { onSuccess: (data: any) => reset() })
+			createCabin(
+				{ ...data, image },
+				{
+					onSuccess: (data: any) => {
+						reset()
+						onCloseModal?.()
+					},
+				},
+			)
 		}
 	}
 
@@ -43,7 +60,7 @@ function CreateCabinForm({ cabinToEdit = {} }: CreateCabinFormProps) {
 	}
 
 	return (
-		<Form onSubmit={handleSubmit(onSubmit, onError)}>
+		<Form onSubmit={handleSubmit(onSubmit, onError)} type={onCloseModal ? 'modal' : 'regular'}>
 			<FormRow label='Cabin Name' error={errors?.name?.message}>
 				<Input
 					type='text'
@@ -120,7 +137,7 @@ function CreateCabinForm({ cabinToEdit = {} }: CreateCabinFormProps) {
 			</FormRow>
 
 			<FormRow>
-				<Button $variation='secondary' type='reset'>
+				<Button onClick={() => onCloseModal?.()} $variation='secondary' type='reset'>
 					Cancel
 				</Button>
 				<Button disabled={isWorking}>{isEditSession ? 'Edit Cabin' : 'Create New Cabin'}</Button>
