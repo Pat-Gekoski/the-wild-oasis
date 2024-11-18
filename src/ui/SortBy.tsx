@@ -8,7 +8,7 @@ interface SortByProps {
 
 function SortBy({ options }: SortByProps) {
 	const [searchParams, setSearchParams] = useSearchParams()
-	const sortBy = searchParams.get('sortBy')
+	const sortBy = searchParams.get('sortBy') || ''
 
 	function handleChange(e: ChangeEvent<HTMLSelectElement>) {
 		searchParams.set('sortBy', e.target.value)

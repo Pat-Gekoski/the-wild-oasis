@@ -1,5 +1,4 @@
-import { ButtonHTMLAttributes, createContext, ReactElement, ReactNode, useContext, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { createContext, ReactElement, ReactNode, useContext, useState } from 'react'
 import { HiEllipsisVertical } from 'react-icons/hi2'
 import styled from 'styled-components'
 import { useOutsideClick } from '../hooks/useOutsideClick'
@@ -125,7 +124,9 @@ function List({ id, children }: { id: string; children: ReactNode }) {
 	)
 }
 
-function Button({ children, icon, onClick }: { children: ReactNode; icon: ReactElement; onClick?: () => void | undefined }) {
+function Button({ children, icon, onClick, disabled = false }:
+	{ children: ReactNode; icon: ReactElement; onClick?: () => void | undefined; disabled?: boolean }) {
+
 	const { close } = useContext(MenusContext)
 
 	function handleClick() {
@@ -134,8 +135,8 @@ function Button({ children, icon, onClick }: { children: ReactNode; icon: ReactE
 	}
 	return (
 		<li>
-			<StyledButton onClick={handleClick}>
-				{icon} <span>{children}</span>
+			<StyledButton onClick={handleClick} disabled={disabled}>
+				{icon} <span style={{ whiteSpace: 'nowrap' }}>{children}</span>
 			</StyledButton>
 		</li>
 	)

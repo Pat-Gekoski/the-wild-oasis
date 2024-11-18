@@ -1,6 +1,5 @@
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 import styled from 'styled-components'
-import Input from './Input'
-import { ReactElement, ReactNode } from 'react'
 
 const StyledFormRow = styled.div`
 	display: grid;
@@ -40,7 +39,7 @@ const Error = styled.span`
 
 interface FormRowProps {
 	label?: string
-	error?: string
+	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined
 	children: any
 }
 
