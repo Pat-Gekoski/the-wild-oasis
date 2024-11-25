@@ -6,7 +6,7 @@ export function useUser() {
 		data: user,
 		isPending: isLoading,
 		fetchStatus,
-	} = useQuery({
+	} = useQuery<any>({
 		queryKey: ['user'],
 		queryFn: getCurrentUser,
 	})

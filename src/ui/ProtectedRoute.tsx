@@ -1,8 +1,9 @@
 import styled from "styled-components"
 import { useUser } from "../features/authentication/useUser"
 import Spinner from "./Spinner"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 
 const FullPage = styled.div`
 	height: 100vh;
@@ -14,15 +15,16 @@ const FullPage = styled.div`
 
 function ProtectedRoute({ children }: any) {
 	const navigate = useNavigate()
-	const location = useLocation();
 	const { isAuthenticated, isLoading, fetchStatus } = useUser()
+
+	const queryClient = useQueryClient()
 
 	useEffect(() => {
 		if (!isAuthenticated && !isLoading && fetchStatus !== 'fetching') {
 			navigate('/login')
 		}
 
-	}, [isAuthenticated, isLoading, navigate, fetchStatus, location])
+	}, [isAuthenticated, isLoading, navigate, fetchStatus, queryClient])
 
 	if (isLoading) {
 		return (
