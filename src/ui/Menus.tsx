@@ -88,12 +88,8 @@ function Toggle({ id }: ToggleProps) {
 	const { openId, open, close, setPosition } = useContext(MenusContext)
 
 	function handleClick(e: React.MouseEvent<HTMLElement>) {
+		e.stopPropagation()
 		const rect = (e.target as HTMLElement).closest('button')?.getBoundingClientRect()
-
-		// setPosition({
-		// 	x: innerWidth - rect!.width - rect!.x,
-		// 	y: rect!.y + rect!.height + 8,
-		// })
 
 		setPosition({
 			x: 0,
@@ -112,11 +108,12 @@ function Toggle({ id }: ToggleProps) {
 
 function List({ id, children }: { id: string; children: ReactNode }) {
 	const { openId, position, close } = useContext(MenusContext)
-	const { ref } = useOutsideClick<HTMLUListElement>(close)
+	const { ref } = useOutsideClick<HTMLUListElement>(() => {
+		close()
+	}, false)
 
 	if (openId !== id) return null
 
-	// return createPortal(<StyledList $position={position}>{children}</StyledList>, document.body)
 	return (
 		<StyledList ref={ref} $position={position}>
 			{children}
@@ -124,12 +121,20 @@ function List({ id, children }: { id: string; children: ReactNode }) {
 	)
 }
 
-function Button({ children, icon, onClick, disabled = false }:
-	{ children: ReactNode; icon: ReactElement; onClick?: () => void | undefined; disabled?: boolean }) {
-
+function Button({
+	children,
+	icon,
+	onClick,
+	disabled = false,
+}: {
+	children: ReactNode
+	icon: ReactElement
+	onClick?: () => void | undefined
+	disabled?: boolean
+}) {
 	const { close } = useContext(MenusContext)
 
-	function handleClick() {
+	function handleClick(e) {
 		onClick?.()
 		close()
 	}
