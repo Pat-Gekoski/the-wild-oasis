@@ -10,6 +10,7 @@
 	],
 	"compilerOptions": {
 		"lib": ["ES2021", "DOM"],
-		"target": "ES2021"
+		"target": "ES2021",
+		"noImplicitAny": false
 	}
 }

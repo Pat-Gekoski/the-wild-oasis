@@ -134,7 +134,7 @@ function Button({
 }) {
 	const { close } = useContext(MenusContext)
 
-	function handleClick(e) {
+	function handleClick() {
 		onClick?.()
 		close()
 	}

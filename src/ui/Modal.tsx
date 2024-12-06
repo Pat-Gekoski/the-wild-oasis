@@ -1,4 +1,4 @@
-import { cloneElement, createContext, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from 'react'
+import { cloneElement, createContext, ReactElement, ReactNode, useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { HiXMark } from 'react-icons/hi2'
 import styled from 'styled-components'
@@ -91,7 +91,7 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
 
 const Window = ({ children, name }: WindowProps) => {
 	const { openName, close } = useContext(ModalContext)
-	const { ref } = useOutsideClick(close, true)
+	const { ref } = useOutsideClick<any>(close, true)
 
 	if (name !== openName) return null
 

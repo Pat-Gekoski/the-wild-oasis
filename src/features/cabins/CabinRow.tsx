@@ -71,7 +71,7 @@ function CabinRow({ cabin }: CabinRowProps) {
 						<Menus.Toggle id={cabinId} />
 
 						<Menus.List id={cabinId}>
-							<Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack />}>
+							<Menus.Button onClick={handleDuplicate} disabled={isCreating} icon={<HiSquare2Stack />}>
 								Duplicate
 							</Menus.Button>
 							<Modal.Open opens='cabin-form'>
